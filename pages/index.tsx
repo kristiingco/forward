@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import NavBar from "../components/NavBar";
+import Search from "../components/Search";
 
 const Home: NextPage = () => {
   return (
@@ -12,8 +13,8 @@ const Home: NextPage = () => {
       </Head>
 
       <NavBar />
-      <main>
-        <h1>Kristi Ingco</h1>
+      <main className="px-4 py-6">
+        <Search />
       </main>
 
       <footer></footer>
