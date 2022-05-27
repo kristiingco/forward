@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Card from "../components/Card";
 import NavBar from "../components/NavBar";
 import Search from "../components/Search";
+import SectionCards from "../components/SectionCards";
 
 const Home: NextPage = () => {
   return (
@@ -13,8 +15,10 @@ const Home: NextPage = () => {
       </Head>
 
       <NavBar />
-      <main className="px-4 py-6">
+      <main className="my-6">
         <Search />
+        <SectionCards title="Trending" trending={true} />
+        <SectionCards title="Recommended for you" trending={false} />
       </main>
 
       <footer></footer>
