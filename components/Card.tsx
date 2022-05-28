@@ -40,11 +40,19 @@ const Card: FunctionComponent<CardProps> = ({ trending }: CardProps) => {
         }
       >
         <span
-          className={`font-light ${
-            trending ? "text-md" : "opacity-50 text-sm"
+          className={`font-light opacity-80  ${
+            trending ? "text-md" : "text-sm"
           }`}
         >
-          Year &#8226; Category &#8226; Rating
+          Year &#8226;{" "}
+          <Image
+            src={"/static/icon-category-movie.svg"}
+            alt="Insert Movie Title Here"
+            width={trending ? "12px" : "10px"}
+            height={trending ? "12px" : "10px"}
+            className=""
+          />{" "}
+          Category &#8226; Rating
         </span>
         <p className="text-lg">Title</p>
       </div>
