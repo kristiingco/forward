@@ -11,12 +11,14 @@ const SectionCards: FunctionComponent<SectionCardsProps> = ({
   trending,
 }: SectionCardsProps) => {
   return (
-    <div className={`my-4 ${trending ? "ml-4" : "mx-4"}`}>
-      <h2 className="text-xl font-light">{title}</h2>
+    <section className={`my-4 ${!trending ? "mx-4" : ""}`}>
+      <h2 className={`${trending ? "mx-4" : ""} text-xl font-light`}>
+        {title}
+      </h2>
       <div
         className={`my-4 ${
           trending
-            ? "flex overflow-x-auto overflow-y-hidden gap-4"
+            ? "flex overflow-x-auto overflow-y-hidden gap-4 p-4"
             : "flex flex-wrap justify-between"
         }`}
       >
@@ -24,7 +26,7 @@ const SectionCards: FunctionComponent<SectionCardsProps> = ({
         <Card trending={trending} />
         <Card trending={trending} />
       </div>
-    </div>
+    </section>
   );
 };
 
