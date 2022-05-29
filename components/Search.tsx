@@ -21,7 +21,7 @@ const Search: FunctionComponent<SearchProps> = ({
       <input
         type="text"
         placeholder={placeholderText}
-        className="bg-transparent text-lg font-light py-3 mr-4 focus:border-b-2 focus:outline-0 focus:border-b-grayish-blue w-full"
+        className="bg-transparent text-lg font-light py-3 mr-4 focus:border-b-2 focus:outline-0 focus:border-b-grayish-blue w-full caret-bright-red"
       />
     </div>
   );
