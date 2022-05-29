@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         "semi-dark-blue": "#161D2F",
         "grayish-blue": "#5A698F",
+        "bright-red": "#FC4747",
       },
     },
   },
