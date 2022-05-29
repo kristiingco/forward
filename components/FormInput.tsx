@@ -18,7 +18,7 @@ const FormInput: FunctionComponent<FormInputProps> = ({
   return (
     <div className="">
       <input
-        className="bg-transparent text-lg font-light p-5 mr-4 border-b-2 outline-0 border-b-grayish-blue w-full caret-bright-red"
+        className="bg-transparent text-lg font-light p-5 mr-4 border-b-2 outline-0 border-b-grayish-blue focus:border-b-white  w-full caret-bright-red"
         onChange={handleChange}
         placeholder={placeholder}
         type={type}
