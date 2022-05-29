@@ -15,7 +15,7 @@ const Home: NextPage = () => {
 
       <NavBar />
       <main className="my-6">
-        <Search />
+        <Search placeholderText="Search for movies or TV series" />
         <SectionCards title="Trending" trending={true} />
         <SectionCards title="Recommended for you" trending={false} />
       </main>

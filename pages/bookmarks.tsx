@@ -8,7 +8,7 @@ const Bookmarks: NextPage = () => {
     <div>
       <NavBar />
       <main className="my-6">
-        <Search />
+        <Search placeholderText="Search for bookmarked shows" />
         <SectionCards title="Bookmarked Movies" trending={false} />
         <SectionCards title="Bookmarked TV Series" trending={false} />
       </main>

@@ -8,7 +8,7 @@ const Movies: NextPage = () => {
     <div>
       <NavBar />
       <main className="my-6">
-        <Search />
+        <Search placeholderText="Search for movies" />
         <SectionCards title="Movies" trending={false} />
       </main>
     </div>

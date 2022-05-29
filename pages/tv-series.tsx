@@ -8,7 +8,7 @@ const TVSeries: NextPage = () => {
     <div>
       <NavBar />
       <main className="my-6">
-        <Search />
+        <Search placeholderText="Search for TV series" />
         <SectionCards title="TV Series" trending={false} />
       </main>
     </div>
