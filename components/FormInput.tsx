@@ -1,4 +1,5 @@
 import { FunctionComponent } from "react";
+import { isError } from "util";
 
 type FormInputProps = {
   handleChange: (event: any) => void;
@@ -16,7 +17,13 @@ const FormInput: FunctionComponent<FormInputProps> = ({
   value,
 }: FormInputProps) => {
   return (
-    <div className="">
+    <div className="relative">
+      {false && (
+        <span className="absolute font-light text-sm right-0 top-6 text-bright-red">
+          be empty
+        </span>
+      )}
+
       <input
         className="bg-transparent text-lg font-light p-5 mr-4 border-b-2 outline-0 border-b-grayish-blue focus:border-b-white  w-full caret-bright-red"
         onChange={handleChange}

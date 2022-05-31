@@ -4,7 +4,10 @@ import NavBar from "../components/NavBar";
 import Search from "../components/Search";
 import SectionCards from "../components/SectionCards";
 
+import entertainmentData from "../lib/data.json";
+
 const Home: NextPage = () => {
+  console.log(entertainmentData);
   return (
     <div>
       <Head>
@@ -16,8 +19,20 @@ const Home: NextPage = () => {
       <NavBar />
       <main className="my-6">
         <Search placeholderText="Search for movies or TV series" />
-        <SectionCards title="Trending" trending={true} />
-        <SectionCards title="Recommended for you" trending={false} />
+        <SectionCards
+          title="Trending"
+          trending={true}
+          videos={entertainmentData.filter((element) => {
+            return element.isTrending;
+          })}
+        />
+        <SectionCards
+          title="Recommended for you"
+          trending={false}
+          videos={entertainmentData.filter((element) => {
+            return !element.isTrending;
+          })}
+        />
       </main>
 
       <footer></footer>

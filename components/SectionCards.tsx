@@ -4,11 +4,13 @@ import Card from "./Card";
 type SectionCardsProps = {
   title: string;
   trending: boolean;
+  videos: any[];
 };
 
 const SectionCards: FunctionComponent<SectionCardsProps> = ({
   title,
   trending,
+  videos,
 }: SectionCardsProps) => {
   return (
     <section className={`my-4 ${!trending ? "mx-4" : ""}`}>
@@ -22,9 +24,24 @@ const SectionCards: FunctionComponent<SectionCardsProps> = ({
             : "flex flex-wrap justify-between"
         }`}
       >
-        <Card trending={trending} />
-        <Card trending={trending} />
-        <Card trending={trending} />
+        {videos.map((video, index) => {
+          return (
+            <Card
+              key={index}
+              title={video.title}
+              year={video.year}
+              category={video.category}
+              rating={video.rating}
+              inTrendingSection={trending}
+              isBookmarked={video.isBookmarked}
+              imgUrl={
+                trending
+                  ? video.thumbnail.trending.large
+                  : video.thumbnail.regular.large
+              }
+            />
+          );
+        })}
       </div>
     </section>
   );

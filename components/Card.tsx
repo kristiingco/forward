@@ -1,29 +1,54 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import Image from "next/image";
 
 type CardProps = {
-  trending: boolean;
+  title: string;
+  year: number;
+  category: string;
+  rating: string;
+  inTrendingSection: boolean;
+  isBookmarked: boolean;
+  imgUrl: string;
 };
 
-const Card: FunctionComponent<CardProps> = ({ trending }: CardProps) => {
+const Card: FunctionComponent<CardProps> = ({
+  title,
+  year,
+  category,
+  rating,
+  inTrendingSection,
+  isBookmarked,
+  imgUrl,
+}: CardProps) => {
+  const [isHovering, setIsHovered] = useState(false);
+  const onMouseEnter = () => setIsHovered(true);
+  const onMouseLeave = () => setIsHovered(false);
   return (
-    <div className="flex flex-col relative rounded-md">
+    <div
+      className={`flex flex-col relative rounded-md ${
+        !inTrendingSection ? "mb-8" : ""
+      }`}
+    >
       <div
-        className={`flex items-center justify-center absolute z-50 w-6 h-6 bg-black rounded-full m-1 ${
-          trending ? "left-64" : "left-32"
-        }`}
+        className={`group flex items-center justify-center absolute z-50 w-6 h-6 bg-black rounded-full m-1 ${
+          inTrendingSection ? "left-64" : "left-32"
+        } hover:bg-white`}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       >
         <Image
-          src="/static/icon-bookmark-empty.svg"
+          src={`/static/icon-bookmark-${
+            isHovering || isBookmarked ? "full" : "empty"
+          }.svg`}
           alt="Insert Title then Bookmark here"
           width="10px"
           height="12px"
         />
       </div>
-      <div className={`${trending ? "w-72" : "w-40"}`}>
+      <div className={`${inTrendingSection ? "w-72" : "w-40"}`}>
         <Image
-          src="https://pbs.twimg.com/media/EMxsvAsU8AIVfO0.jpg"
-          alt="Insert Movie Title Here"
+          src={imgUrl}
+          alt={title}
           width={280}
           height={174}
           layout="responsive"
@@ -34,27 +59,27 @@ const Card: FunctionComponent<CardProps> = ({ trending }: CardProps) => {
 
       <div
         className={
-          trending
+          inTrendingSection
             ? "absolute p-6 top-20 w-72 bg-gradient-to-b from-transparent to-black rounded-b-lg"
             : ""
         }
       >
         <span
           className={`font-light opacity-80  ${
-            trending ? "text-md" : "text-sm"
+            inTrendingSection ? "text-md" : "text-sm"
           }`}
         >
-          Year &#8226;{" "}
+          {year} &#8226;{" "}
           <Image
             src={"/static/icon-category-movie.svg"}
             alt="Insert Movie Title Here"
-            width={trending ? "12px" : "10px"}
-            height={trending ? "12px" : "10px"}
+            width={inTrendingSection ? "12px" : "10px"}
+            height={inTrendingSection ? "12px" : "10px"}
             className=""
           />{" "}
-          Category &#8226; Rating
+          {category} &#8226; {rating}
         </span>
-        <p className="text-lg">Title</p>
+        <p className={inTrendingSection ? "text-lg " : "text-sm"}>{title}</p>
       </div>
     </div>
   );
