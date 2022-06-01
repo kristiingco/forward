@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const NavBar: FunctionComponent<{}> = () => {
   return (
-    <nav className="flex justify-between items-center bg-semi-dark-blue px-3 py-3.5 ">
+    <nav className="flex justify-between items-center bg-semi-dark-blue px-3 py-3.5">
       <div>
         <Image
           src={"/static/logo.svg"}
@@ -57,13 +57,18 @@ const NavBar: FunctionComponent<{}> = () => {
         </Link>
       </div>
 
-      <div className="flex border-2 rounded-full">
-        <Image
-          src={"/static/image-avatar.png"}
-          alt="User Avatar"
-          width="30px"
-          height="30px"
-        />
+      <div>
+        <div className="flex border-2 rounded-full">
+          <Image
+            src={"/static/image-avatar.png"}
+            alt="User Avatar"
+            width="30px"
+            height="30px"
+          />
+        </div>
+        <div className="absolute bg-black font-light text-sm right-0 p-3 mt-1">
+          <span>Sign Out</span>
+        </div>
       </div>
     </nav>
   );
