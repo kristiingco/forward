@@ -4,9 +4,16 @@ import Head from "next/head";
 import NavBar from "../components/NavBar";
 import Search from "../components/Search";
 import SectionCards from "../components/SectionCards";
+import { motion } from "framer-motion";
 
 import entertainmentData from "../lib/data.json";
 import search from "../lib/utils/search";
+
+const variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 },
+};
 
 const Home: NextPage = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -27,7 +34,14 @@ const Home: NextPage = () => {
       </Head>
 
       <NavBar />
-      <main className="my-6">
+      <motion.main
+        className="my-6"
+        variants={variants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        transition={{ type: "linear" }}
+      >
         <Search
           placeholderText="Search for movies or TV series"
           setSearchQuery={setSearchQuery}
@@ -54,7 +68,7 @@ const Home: NextPage = () => {
             />
           </>
         )}
-      </main>
+      </motion.main>
 
       <footer></footer>
     </div>

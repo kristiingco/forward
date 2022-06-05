@@ -3,9 +3,16 @@ import NavBar from "../components/NavBar";
 import { useState } from "react";
 import Search from "../components/Search";
 import SectionCards from "../components/SectionCards";
+import { motion } from "framer-motion";
 
 import entertainmentData from "../lib/data.json";
 import search from "../lib/utils/search";
+
+const variants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1 },
+  exit: { opacity: 0 },
+};
 
 const Bookmarks: NextPage = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -29,7 +36,14 @@ const Bookmarks: NextPage = () => {
   return (
     <div>
       <NavBar />
-      <main className="my-6">
+      <motion.main
+        className="my-6"
+        variants={variants}
+        initial="hidden"
+        animate="visible"
+        exit="exit"
+        transition={{ type: "linear" }}
+      >
         <Search
           placeholderText="Search for bookmarked shows"
           setSearchQuery={setSearchQuery}
@@ -58,7 +72,7 @@ const Bookmarks: NextPage = () => {
             />
           </>
         )}
-      </main>
+      </motion.main>
     </div>
   );
 };

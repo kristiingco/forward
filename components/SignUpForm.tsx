@@ -78,7 +78,7 @@ const SignUpForm: FunctionComponent<{}> = () => {
 
         <span className="font-light block text-center">
           Already have an account?{" "}
-          <Link href="/">
+          <Link href="/login">
             <a className="text-bright-red">Login</a>
           </Link>
         </span>
