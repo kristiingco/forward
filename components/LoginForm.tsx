@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import FormInput from "./FormInput";
 import FormButton from "./FormButton";
 import Link from "next/link";
+import { signInUser } from "../lib/firebase";
 
 const defaultFormFields = {
   email: "",
@@ -13,10 +14,35 @@ const LoginForm: FunctionComponent<{}> = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
 
   const { email, password } = formFields;
-  const handleChange = (event: any) => {
+  const handleChange: any = (event: any) => {
     const { name, value } = event.target;
 
     setFormFields({ ...formFields, [name]: value });
+  };
+
+  const handleSubmit: any = async (event: any) => {
+    event.preventDefault();
+
+    try {
+      return await signInUser(email, password);
+    } catch (error: any) {
+      switch (error.code) {
+        case "auth/wrong-password":
+          alert("Incorrect password for email");
+          break;
+        case "auth/user-not-found":
+          alert("No user associated with this email");
+          break;
+        case "auth/invalid-email":
+          alert("Email is invalid");
+          break;
+        case "auth/invalid-password":
+          alert("Password is invalid");
+          break;
+        default:
+          console.log(error);
+      }
+    }
   };
 
   return (
@@ -37,7 +63,7 @@ const LoginForm: FunctionComponent<{}> = () => {
           name="password"
           value={password}
         />
-        <FormButton buttonText="Login to your account" />
+        <FormButton buttonText="Login to your account" onClick={handleSubmit} />
 
         <span className="font-light block text-center">
           Don&apos;t have an account?{" "}

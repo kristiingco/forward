@@ -3,6 +3,7 @@ import React, { FunctionComponent } from "react";
 import FormInput from "./FormInput";
 import FormButton from "./FormButton";
 import Link from "next/link";
+import { createUser, createUserDocFromAuth } from "../lib/firebase";
 
 const defaultFormFields = {
   email: "",
@@ -14,10 +15,38 @@ const SignUpForm: FunctionComponent<{}> = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
 
   const { email, password, repeatPassword } = formFields;
-  const handleChange = (event: any) => {
+  const handleChange: any = (event: any) => {
     const { name, value } = event.target;
 
     setFormFields({ ...formFields, [name]: value });
+  };
+
+  const handleSubmit: any = async (event: any) => {
+    event.preventDefault();
+
+    if (password !== repeatPassword) {
+      alert("Passwords do not match");
+    }
+
+    try {
+      const { user } = await createUser(email, password);
+
+      return await createUserDocFromAuth(user);
+    } catch (error: any) {
+      switch (error.code) {
+        case "auth/email-already-exists":
+          alert("User already exists");
+          break;
+        case "auth/invalid-email":
+          alert("Email is invalid");
+          break;
+        case "auth/invalid-password":
+          alert("Password is invalid");
+          break;
+        default:
+          console.error("Error creating user", error);
+      }
+    }
   };
 
   return (
@@ -42,10 +71,10 @@ const SignUpForm: FunctionComponent<{}> = () => {
           handleChange={handleChange}
           placeholder="Repeat password"
           type="password"
-          name="password"
+          name="repeatPassword"
           value={repeatPassword}
         />
-        <FormButton buttonText="Create an account" />
+        <FormButton buttonText="Create an account" onClick={handleSubmit} />
 
         <span className="font-light block text-center">
           Already have an account?{" "}

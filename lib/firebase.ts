@@ -1,4 +1,12 @@
 import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
+import { getFirestore, collection, addDoc } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -11,3 +19,40 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+const user = auth.currentUser;
+
+const db = getFirestore(app);
+
+export const createUserDocFromAuth: any = async (userAuth: any) => {
+  if (!userAuth) return;
+  const { email } = userAuth;
+  try {
+    return await addDoc(collection(db, "users"), {
+      email,
+    });
+  } catch (e) {
+    console.error("Error adding document:", e);
+  }
+};
+
+export const createUser: any = async (email: string, password: any) => {
+  if (!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const signInUser: any = async (email: string, password: any) => {
+  if (!email || !password) return;
+
+  return await signInWithEmailAndPassword(auth, email, password);
+};
+
+export const signOutUser: any = async () => {
+  signOut(auth);
+};
+
+export const onAuthStateChangedListener = (callback: any) => {
+  onAuthStateChanged(auth, callback);
+};

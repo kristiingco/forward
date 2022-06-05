@@ -1,6 +1,7 @@
 import { FunctionComponent } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { signOutUser } from "../lib/firebase";
 
 const NavBar: FunctionComponent<{}> = () => {
   return (
@@ -67,7 +68,9 @@ const NavBar: FunctionComponent<{}> = () => {
           />
         </div>
         <div className="absolute bg-black font-light text-sm right-0 p-3 mt-1">
-          <span>Sign Out</span>
+          <span className="cursor-pointer" onClick={signOutUser}>
+            Sign Out
+          </span>
         </div>
       </div>
     </nav>
