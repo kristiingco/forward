@@ -1,9 +1,10 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { signOutUser } from "../lib/firebase";
 
 const NavBar: FunctionComponent<{}> = () => {
+  const [toggleMenu, setToggleMenu] = useState(false);
   return (
     <nav className="flex justify-between items-center bg-semi-dark-blue px-3 py-3.5">
       <div>
@@ -65,13 +66,19 @@ const NavBar: FunctionComponent<{}> = () => {
             alt="User Avatar"
             width="30px"
             height="30px"
+            className="cursor-pointer"
+            onClick={() => {
+              setToggleMenu(!toggleMenu);
+            }}
           />
         </div>
-        <div className="absolute bg-black font-light text-sm right-0 p-3 mt-1">
-          <span className="cursor-pointer" onClick={signOutUser}>
-            Sign Out
-          </span>
-        </div>
+        {toggleMenu && (
+          <div className="absolute bg-black font-light text-sm right-0 p-3 mt-1">
+            <span className="cursor-pointer" onClick={signOutUser}>
+              Sign Out
+            </span>
+          </div>
+        )}
       </div>
     </nav>
   );
