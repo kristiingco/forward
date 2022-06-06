@@ -9,9 +9,9 @@ import {
 import {
   getFirestore,
   collection,
-  addDoc,
+  doc,
+  setDoc,
   query,
-  where,
   getDocs,
 } from "firebase/firestore";
 
@@ -33,9 +33,9 @@ const db = getFirestore(app);
 
 export const createUserDocFromAuth: any = async (userAuth: any) => {
   if (!userAuth) return;
-  const { email } = userAuth;
+  const { email, uid } = userAuth;
   try {
-    return await addDoc(collection(db, "users"), {
+    return await setDoc(doc(db, "users", uid), {
       email,
     });
   } catch (e) {
