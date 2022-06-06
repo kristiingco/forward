@@ -1,11 +1,11 @@
-import type { NextPage } from "next";
-import NavBar from "../components/NavBar";
 import { useState } from "react";
+import type { NextPage } from "next";
+import { InferGetServerSidePropsType } from "next";
+import NavBar from "../components/NavBar";
 import Search from "../components/Search";
 import SectionCards from "../components/SectionCards";
 import { motion } from "framer-motion";
 
-import entertainmentData from "../lib/data.json";
 import search from "../lib/utils/search";
 
 const variants = {
@@ -14,25 +14,52 @@ const variants = {
   exit: { opacity: 0 },
 };
 
-const Bookmarks: NextPage = () => {
+export async function getServerSideProps(context: any) {
+  const baseUrl = context.req ? `http://${context.req.headers.host}` : "";
+
+  const allVideos = await fetch(baseUrl + "/api/get-all-videos").then(
+    async (res) => {
+      const data = await res.json();
+      return data.videos;
+    }
+  );
+
+  const allBookmarkedVideos = allVideos.filter((element: any) => {
+    return element.isBookmarked;
+  });
+
+  const allBookmarkedMovieVideos: any[] = allBookmarkedVideos.filter(
+    (element: any) => {
+      return element.category === "Movie";
+    }
+  );
+  const allBookmarkedTVSeriesVideos: any[] = allBookmarkedVideos.filter(
+    (element: any) => {
+      return element.category === "TV Series";
+    }
+  );
+
+  return {
+    props: {
+      allBookmarkedVideos,
+      allBookmarkedMovieVideos,
+      allBookmarkedTVSeriesVideos,
+    },
+  };
+}
+
+const Bookmarks: NextPage<any> = ({
+  allBookmarkedVideos,
+  allBookmarkedMovieVideos,
+  allBookmarkedTVSeriesVideos,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   const allFilteredBookmarkedVideos: any[] = search(
-    entertainmentData.filter((element) => {
-      return element.isBookmarked;
-    }),
+    allBookmarkedVideos,
     searchQuery
   );
-  const allBookmarkedMovieVideos: any[] = entertainmentData.filter(
-    (element) => {
-      return element.category === "Movie" && element.isBookmarked;
-    }
-  );
-  const allBookmarkedTVSeriesVideos: any[] = entertainmentData.filter(
-    (element) => {
-      return element.category === "TV Series" && element.isBookmarked === true;
-    }
-  );
+
   return (
     <div>
       <NavBar />

@@ -1,12 +1,12 @@
 import { useState } from "react";
 import type { NextPage } from "next";
+import { InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 import NavBar from "../components/NavBar";
 import Search from "../components/Search";
 import SectionCards from "../components/SectionCards";
 import { motion } from "framer-motion";
 
-import entertainmentData from "../lib/data.json";
 import search from "../lib/utils/search";
 
 const variants = {
@@ -15,16 +15,42 @@ const variants = {
   exit: { opacity: 0 },
 };
 
-const Home: NextPage = () => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
+export async function getServerSideProps(context: any) {
+  const baseUrl = context.req ? `http://${context.req.headers.host}` : "";
 
-  const allFilteredVideos: any[] = search(entertainmentData, searchQuery);
-  const trendingVideos: any[] = entertainmentData.filter((element) => {
+  const allVideos = await fetch(baseUrl + "/api/get-all-videos").then(
+    async (res) => {
+      const data = await res.json();
+      return data.videos;
+    }
+  );
+
+  const trendingVideos = allVideos.filter((element: any) => {
     return element.isTrending;
   });
-  const nonTrendingVideos: any[] = entertainmentData.filter((element) => {
+
+  const nonTrendingVideos: any[] = allVideos.filter((element: any) => {
     return !element.isTrending;
   });
+
+  return {
+    props: {
+      allVideos,
+      trendingVideos,
+      nonTrendingVideos,
+    },
+  };
+}
+
+const Home: NextPage<any> = ({
+  allVideos,
+  trendingVideos,
+  nonTrendingVideos,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const allFilteredVideos: any[] = search(allVideos, searchQuery);
+
   return (
     <div>
       <Head>

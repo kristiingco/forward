@@ -34,11 +34,7 @@ const SectionCards: FunctionComponent<SectionCardsProps> = ({
               rating={video.rating}
               inTrendingSection={trending}
               isBookmarked={video.isBookmarked}
-              imgUrl={
-                trending
-                  ? video.thumbnail.trending.large
-                  : video.thumbnail.regular.large
-              }
+              imgUrl={video.thumbnail}
             />
           );
         })}

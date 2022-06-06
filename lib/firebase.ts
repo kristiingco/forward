@@ -6,7 +6,14 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -21,7 +28,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
-const user = auth.currentUser;
 
 const db = getFirestore(app);
 
@@ -55,4 +61,11 @@ export const signOutUser: any = async () => {
 
 export const onAuthStateChangedListener = (callback: any) => {
   onAuthStateChanged(auth, callback);
+};
+
+export const getAllVideos = async () => {
+  const q = query(collection(db, "videos"));
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot.docs.map((doc) => doc.data());
 };

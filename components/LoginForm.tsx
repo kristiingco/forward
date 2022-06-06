@@ -40,7 +40,7 @@ const LoginForm: FunctionComponent<{}> = () => {
           alert("Password is invalid");
           break;
         default:
-          console.log(error);
+          console.error(error);
       }
     }
   };

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import type { NextPage } from "next";
+import { InferGetServerSidePropsType } from "next";
 import NavBar from "../components/NavBar";
 import Search from "../components/Search";
 import SectionCards from "../components/SectionCards";
 import { motion } from "framer-motion";
 
-import entertainmentData from "../lib/data.json";
 import search from "../lib/utils/search";
 
 const variants = {
@@ -14,15 +14,33 @@ const variants = {
   exit: { opacity: 0 },
 };
 
-const TVSeries: NextPage = () => {
+export async function getServerSideProps(context: any) {
+  const baseUrl = context.req ? `http://${context.req.headers.host}` : "";
+
+  const allVideos = await fetch(baseUrl + "/api/get-all-videos").then(
+    async (res) => {
+      const data = await res.json();
+      return data.videos;
+    }
+  );
+
+  const tvSeriesVideos = allVideos.filter((element: any) => {
+    return element.category === "TV Series";
+  });
+
+  return {
+    props: {
+      tvSeriesVideos,
+    },
+  };
+}
+
+const TVSeries: NextPage<any> = ({
+  tvSeriesVideos,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const filteredTVSeriesVideos: any[] = search(
-    entertainmentData.filter((element) => {
-      return element.category === "TV Series";
-    }),
-    searchQuery
-  );
+  const filteredTVSeriesVideos: any[] = search(tvSeriesVideos, searchQuery);
 
   return (
     <div>
