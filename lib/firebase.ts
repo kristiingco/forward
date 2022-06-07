@@ -13,6 +13,7 @@ import {
   setDoc,
   query,
   getDocs,
+  where,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -67,5 +68,9 @@ export const getAllVideos = async () => {
   const q = query(collection(db, "videos"));
   const querySnapshot = await getDocs(q);
 
-  return querySnapshot.docs.map((doc) => doc.data());
+  return querySnapshot.docs.map((doc) => {
+    const id = doc.id;
+    const docData = doc.data();
+    return { id, ...docData };
+  });
 };

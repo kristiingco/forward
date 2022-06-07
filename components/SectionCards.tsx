@@ -24,10 +24,10 @@ const SectionCards: FunctionComponent<SectionCardsProps> = ({
             : "flex flex-wrap justify-between"
         }`}
       >
-        {videos.map((video, index) => {
+        {videos.map((video) => {
           return (
             <Card
-              key={index}
+              key={video.id}
               title={video.title}
               year={video.year}
               category={video.category}
