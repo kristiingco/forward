@@ -13,7 +13,9 @@ import {
   setDoc,
   query,
   getDocs,
+  getDoc,
   where,
+  addDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -73,4 +75,30 @@ export const getAllVideos = async () => {
     const docData = doc.data();
     return { id, ...docData };
   });
+};
+
+const getBookmark = async (userId: string, videoId: string) => {
+  const q1 = query(
+    collection(db, "bookmarks"),
+    where("userId", "==", userId),
+    where("videoId", "==", videoId)
+  );
+  const q1Snapshot = await getDocs(q1);
+
+  return q1Snapshot;
+};
+
+export const addBookmark = async (userId: string, videoId: string) => {
+  const bookmark = await getBookmark(userId, videoId);
+  if (bookmark.empty) {
+    const docRef = await addDoc(collection(db, "bookmarks"), {
+      userId: userId,
+      videoId: videoId,
+      isBookmarked: true,
+    });
+    const docSnapshot = await getDoc(docRef);
+    return docSnapshot.data();
+  } else {
+    return bookmark.docs[0].data();
+  }
 };
