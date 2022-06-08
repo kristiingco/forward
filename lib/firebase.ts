@@ -14,6 +14,7 @@ import {
   query,
   getDocs,
   getDoc,
+  updateDoc,
   where,
   addDoc,
 } from "firebase/firestore";
@@ -70,35 +71,73 @@ export const getAllVideos = async () => {
   const q = query(collection(db, "videos"));
   const querySnapshot = await getDocs(q);
 
-  return querySnapshot.docs.map((doc) => {
+  const resultsArray = querySnapshot.docs.map((doc) => {
     const id = doc.id;
     const docData = doc.data();
-    return { id, ...docData };
+    return {
+      id,
+      ...docData,
+      isBookmarked: true,
+    };
   });
+
+  return resultsArray;
 };
 
 const getBookmark = async (userId: string, videoId: string) => {
-  const q1 = query(
+  const q = query(
     collection(db, "bookmarks"),
     where("userId", "==", userId),
     where("videoId", "==", videoId)
   );
-  const q1Snapshot = await getDocs(q1);
 
-  return q1Snapshot;
+  const querySnapshot = await getDocs(q);
+
+  return querySnapshot;
 };
 
-export const addBookmark = async (userId: string, videoId: string) => {
+const doesBookmarkExist = async (userId: string, videoId: string) => {
+  const bookmarkDocs = await getBookmark(userId, videoId);
+
+  return bookmarkDocs.empty;
+};
+
+export const getBookmarkStatus = async (userId: string, videoId: string) => {
+  const bookmarkExists = await doesBookmarkExist(userId, videoId);
+  if (bookmarkExists) {
+    return false;
+  }
   const bookmark = await getBookmark(userId, videoId);
-  if (bookmark.empty) {
+  const docData = bookmark.docs[0].data();
+  return docData.isBookmarked;
+};
+
+export const modifyBookmark = async (userId: string, videoId: string) => {
+  const bookmarkExists = await doesBookmarkExist(userId, videoId);
+  if (bookmarkExists) {
     const docRef = await addDoc(collection(db, "bookmarks"), {
       userId: userId,
       videoId: videoId,
       isBookmarked: true,
     });
     const docSnapshot = await getDoc(docRef);
-    return docSnapshot.data();
+    const id = docSnapshot.id;
+    const docData = docSnapshot.data();
+    return { id, ...docData };
   } else {
-    return bookmark.docs[0].data();
+    const bookmark = await getBookmark(userId, videoId);
+    const id = bookmark.docs[0].id;
+    const docData = bookmark.docs[0].data();
+    const docRef = doc(db, "bookmarks", id);
+
+    await updateDoc(docRef, {
+      isBookmarked: !docData.isBookmarked,
+    });
+
+    const updatedDocRef = doc(db, "bookmarks", id);
+    const updatedDocSnapshot = await getDoc(updatedDocRef);
+    const updatedId = updatedDocSnapshot.id;
+    const updatedDocData = updatedDocSnapshot.data();
+    return { updatedId, ...updatedDocData };
   }
 };

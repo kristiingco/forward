@@ -18,7 +18,7 @@ const variants = {
 export async function getServerSideProps(context: any) {
   const baseUrl = context.req ? `http://${context.req.headers.host}` : "";
 
-  const allVideos = await fetch(baseUrl + "/api/get-all-videos").then(
+  let allVideos = await fetch(baseUrl + "/api/get-all-videos").then(
     async (res) => {
       const data = await res.json();
       return data.videos;
