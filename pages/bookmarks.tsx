@@ -87,16 +87,20 @@ const Bookmarks: NextPage<any> = ({
           </div>
         ) : (
           <>
-            <SectionCards
-              title="Bookmarked Movies"
-              trending={false}
-              videos={allBookmarkedMovieVideos}
-            />
-            <SectionCards
-              title="Bookmarked TV Series"
-              trending={false}
-              videos={allBookmarkedTVSeriesVideos}
-            />
+            {allBookmarkedMovieVideos.length > 0 && (
+              <SectionCards
+                title="Bookmarked Movies"
+                trending={false}
+                videos={allBookmarkedMovieVideos}
+              />
+            )}
+            {allBookmarkedTVSeriesVideos.length > 0 && (
+              <SectionCards
+                title="Bookmarked TV Series"
+                trending={false}
+                videos={allBookmarkedTVSeriesVideos}
+              />
+            )}
           </>
         )}
       </motion.main>

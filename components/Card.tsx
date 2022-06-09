@@ -1,5 +1,6 @@
 import { FunctionComponent, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 type CardProps = {
   title: string;
@@ -20,9 +21,21 @@ const Card: FunctionComponent<CardProps> = ({
   isBookmarked,
   imgUrl,
 }: CardProps) => {
+  const router = useRouter();
   const [isHovering, setIsHovered] = useState(false);
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
+
+  const handleClickBookmark = async () => {
+    const data = await fetch("api/modify-bookmark", { method: "POST" }).then(
+      async (res) => {
+        const data = await res.json();
+        return data.bookmark.isBookmarked;
+      }
+    );
+
+    router.reload();
+  };
   return (
     <div
       className={`flex flex-col relative rounded-md ${
@@ -32,9 +45,10 @@ const Card: FunctionComponent<CardProps> = ({
       <div
         className={`group flex items-center justify-center absolute z-50 w-6 h-6 bg-black rounded-full m-1 ${
           inTrendingSection ? "left-64" : "left-32"
-        } hover:bg-white`}
+        } hover:bg-white cursor-pointer`}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
+        onClick={handleClickBookmark}
       >
         <Image
           src={`/static/icon-bookmark-${
