@@ -59,7 +59,22 @@ const Card: FunctionComponent<CardProps> = ({
           height="12px"
         />
       </div>
-      <div className={`${inTrendingSection ? "w-72" : "w-40"}`}>
+      <div className={`group ${inTrendingSection ? "w-72" : "w-40"}`}>
+        <div
+          className={`absolute bg-black/40 z-30 flex flex-1 justify-center items-center w-full opacity-0 group-hover:opacity-100 ${
+            inTrendingSection ? "h-full" : "h-3/4"
+          }`}
+        >
+          <div className="flex items-center bg-white/30 py-2 px-3 space-x-3 rounded-full cursor-pointer">
+            <Image
+              src={`/static/icon-play.svg`}
+              alt="Play"
+              width="30px"
+              height="30px"
+            />
+            <span className="">Play</span>
+          </div>
+        </div>
         <Image
           src={imgUrl}
           alt={title}
