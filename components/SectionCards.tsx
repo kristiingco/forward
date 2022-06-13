@@ -13,8 +13,12 @@ const SectionCards: FunctionComponent<SectionCardsProps> = ({
   videos,
 }: SectionCardsProps) => {
   return (
-    <section className={`my-4 ${!trending ? "mx-4" : ""}`}>
-      <h2 className={`${trending ? "mx-4" : ""} text-xl font-light`}>
+    <section className={`my-4 ${!trending ? "mx-5" : ""}`}>
+      <h2
+        className={`${
+          trending ? "mx-4" : ""
+        } text-xl md:text-2xl lg:text-3xl font-light flex flex-col`}
+      >
         {title}
       </h2>
       <div

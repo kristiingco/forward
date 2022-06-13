@@ -43,10 +43,10 @@ const TVSeries: NextPage<any> = ({
   const filteredTVSeriesVideos: any[] = search(tvSeriesVideos, searchQuery);
 
   return (
-    <div>
+    <div className="lg:flex">
       <NavBar />
       <motion.main
-        className="my-6"
+        className="my-6 lg:w-screen lg:overflow-x-hidden"
         variants={variants}
         initial="hidden"
         animate="visible"

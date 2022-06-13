@@ -6,7 +6,7 @@ import { signOutUser } from "../lib/firebase";
 const NavBar: FunctionComponent<{}> = () => {
   const [toggleMenu, setToggleMenu] = useState(false);
   return (
-    <nav className="flex justify-between items-center bg-semi-dark-blue px-3 py-3.5">
+    <nav className="flex justify-between items-center bg-semi-dark-blue px-3 py-3.5 md:m-5 md:rounded-xl lg:flex-col lg:justify-start lg:h-screen lg:space-y-8">
       <div>
         <Image
           src={"/static/logo.svg"}
@@ -16,7 +16,7 @@ const NavBar: FunctionComponent<{}> = () => {
         />
       </div>
 
-      <div className="flex self-center gap-x-5">
+      <div className="flex lg:flex-col gap-x-5 lg:gap-y-5">
         <Link href="/">
           <a>
             <Image
@@ -59,8 +59,8 @@ const NavBar: FunctionComponent<{}> = () => {
         </Link>
       </div>
 
-      <div>
-        <div className="flex border-2 rounded-full">
+      <div className="lg:flex lg:flex-col lg:justify-end lg:h-screen">
+        <div className="flex border-2 rounded-full ">
           <Image
             src={"/static/image-avatar.png"}
             alt="User Avatar"
@@ -73,7 +73,7 @@ const NavBar: FunctionComponent<{}> = () => {
           />
         </div>
         {toggleMenu && (
-          <div className="absolute bg-black font-light text-sm right-0 p-3 mt-1">
+          <div className="absolute bg-black font-light text-sm right-0 p-3 mt-1 lg:left-2 lg:-bottom-14">
             <span className="cursor-pointer" onClick={signOutUser}>
               Sign Out
             </span>

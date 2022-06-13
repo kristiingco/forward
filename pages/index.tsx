@@ -52,7 +52,7 @@ const Home: NextPage<any> = ({
   const allFilteredVideos: any[] = search(allVideos, searchQuery);
 
   return (
-    <div>
+    <div className="lg:flex">
       <Head>
         <title>Forward</title>
         <meta name="description" content="Entertainment Web App" />
@@ -61,7 +61,7 @@ const Home: NextPage<any> = ({
 
       <NavBar />
       <motion.main
-        className="my-6"
+        className="my-6 lg:w-screen lg:overflow-x-hidden"
         variants={variants}
         initial="hidden"
         animate="visible"

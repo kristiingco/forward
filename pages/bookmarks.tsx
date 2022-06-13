@@ -61,10 +61,10 @@ const Bookmarks: NextPage<any> = ({
   );
 
   return (
-    <div>
+    <div className="lg:flex">
       <NavBar />
       <motion.main
-        className="my-6"
+        className="my-6 lg:w-screen lg:overflow-x-hidden"
         variants={variants}
         initial="hidden"
         animate="visible"

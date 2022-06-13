@@ -46,7 +46,7 @@ const LoginForm: FunctionComponent<{}> = () => {
   };
 
   return (
-    <div className="bg-semi-dark-blue p-8 w-11/12 flex flex-col justify-center">
+    <div className="bg-semi-dark-blue p-8 w-11/12 md:w-7/12 lg:w-4/12 flex flex-col justify-center">
       <h1 className="text-3xl font-light">Login</h1>
       <div className="my-5">
         <FormInput

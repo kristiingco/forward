@@ -43,8 +43,10 @@ const Card: FunctionComponent<CardProps> = ({
       }`}
     >
       <div
-        className={`group flex items-center justify-center absolute z-50 w-6 h-6 bg-black rounded-full m-1 ${
-          inTrendingSection ? "left-64" : "left-32"
+        className={`group flex items-center justify-center absolute z-50 w-6 h-6 bg-black/75 rounded-full m-1 ${
+          inTrendingSection
+            ? "left-64 md:left-72 lg:left-96 lg:-mx-8"
+            : "left-32 md:left-52 lg:left-64"
         } hover:bg-white cursor-pointer`}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
@@ -59,10 +61,14 @@ const Card: FunctionComponent<CardProps> = ({
           height="12px"
         />
       </div>
-      <div className={`group ${inTrendingSection ? "w-72" : "w-40"}`}>
+      <div
+        className={`group ${
+          inTrendingSection ? "w-72 md:w-80 lg:w-96" : "w-40 md:w-60 lg:w-72"
+        }`}
+      >
         <div
-          className={`absolute bg-black/40 z-30 flex flex-1 justify-center items-center w-full opacity-0 group-hover:opacity-100 ${
-            inTrendingSection ? "h-full" : "h-3/4"
+          className={`absolute bg-black/40 z-30 flex flex-1 justify-center items-center w-full opacity-0 group-hover:opacity-100 box-content pb-1 md:py-1 lg:py-3 ${
+            inTrendingSection ? "h-full" : "h-24 md:h-36 lg:h-40"
           }`}
         >
           <div className="flex items-center bg-white/30 py-2 px-3 space-x-3 rounded-full cursor-pointer">
@@ -89,26 +95,36 @@ const Card: FunctionComponent<CardProps> = ({
       <div
         className={
           inTrendingSection
-            ? "absolute p-6 top-20 w-72 bg-gradient-to-b from-transparent to-black rounded-b-lg"
+            ? "absolute p-6 md:py-9 lg:py-14 top-20 w-72 md:w-80 lg:w-96 bg-gradient-to-b from-transparent to-black rounded-b-lg"
             : ""
         }
       >
         <span
           className={`font-light opacity-80  ${
-            inTrendingSection ? "text-md" : "text-sm"
+            inTrendingSection ? "text-md" : "text-sm md:text-md lg:text-lg"
           }`}
         >
           {year} &#8226;{" "}
           <Image
-            src={"/static/icon-category-movie.svg"}
+            src={
+              category === "Movie"
+                ? "/static/icon-category-movie.svg"
+                : "/static/icon-category-tv.svg"
+            }
             alt="Insert Movie Title Here"
-            width={inTrendingSection ? "12px" : "10px"}
-            height={inTrendingSection ? "12px" : "10px"}
+            width={inTrendingSection ? "16px" : "14px"}
+            height={inTrendingSection ? "16px" : "14px"}
             className=""
           />{" "}
           {category} &#8226; {rating}
         </span>
-        <p className={inTrendingSection ? "text-lg " : "text-sm"}>{title}</p>
+        <p
+          className={`${
+            inTrendingSection ? "text-lg" : "text-sm"
+          }  md:text-xl lg:text-2xl`}
+        >
+          {title}
+        </p>
       </div>
     </div>
   );
