@@ -66,14 +66,14 @@ const NavBar: FunctionComponent<{}> = () => {
             alt="User Avatar"
             width="30px"
             height="30px"
-            className="cursor-pointer"
+            className="cursor-pointer rounded-full"
             onClick={() => {
               setToggleMenu(!toggleMenu);
             }}
           />
         </div>
         {toggleMenu && (
-          <div className="absolute bg-black font-light text-sm right-0 p-3 mt-1 lg:left-2 lg:-bottom-14">
+          <div className="absolute bg-black font-light text-sm right-0 p-3 mt-1 lg:left-2 lg:-bottom-14 lg:w-20">
             <span className="cursor-pointer" onClick={signOutUser}>
               Sign Out
             </span>
