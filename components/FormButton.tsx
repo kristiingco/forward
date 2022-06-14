@@ -12,7 +12,7 @@ const FormButton: FunctionComponent<ButtonProps> = ({
   return (
     <button
       onClick={onClick}
-      className="bg-bright-red w-full py-3 rounded-lg font-light mt-10 mb-6"
+      className="bg-bright-red w-full py-3 rounded-lg font-light mt-10 mb-6 hover:bg-white hover:text-black"
     >
       {buttonText}
     </button>
