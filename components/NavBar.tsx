@@ -62,10 +62,11 @@ const NavBar: FunctionComponent<{}> = () => {
       <div className="lg:flex lg:flex-col lg:justify-end lg:h-screen">
         <div className="flex border-2 rounded-full ">
           <Image
-            src={"/static/image-avatar.png"}
+            src={"/static/image-avatar.svg"}
             alt="User Avatar"
-            width="30px"
-            height="30px"
+            width={30}
+            height={30}
+            objectFit="cover"
             className="cursor-pointer rounded-full"
             onClick={() => {
               setToggleMenu(!toggleMenu);
