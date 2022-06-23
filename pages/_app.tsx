@@ -1,21 +1,21 @@
-import { useEffect } from "react";
-import { Router, useRouter } from "next/router";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { onAuthStateChangedListener } from "../lib/firebase";
 import type { AppProps } from "next/app";
 import "../styles/globals.css";
+import Loading from "../components/Loading";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user: any) => {
       if (user) {
-        console.log("Signed In");
         if (router.pathname === "/login" || router.pathname === "/sign-up") {
           router.push("/");
         }
       } else {
-        console.log("Signed Out");
         if (!(router.pathname === "/login" || router.pathname === "/sign-up")) {
           router.push("/login");
         }
@@ -25,7 +25,26 @@ function MyApp({ Component, pageProps }: AppProps) {
     return unsubscribe;
   }, [router]);
 
-  return <Component {...pageProps} />;
+  useEffect(() => {
+    const handleStart = () => {
+      setLoading(true);
+    };
+
+    const handleComplete = () => {
+      setLoading(false);
+    };
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleComplete);
+    router.events.on("routeChangeError", handleComplete);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleComplete);
+      router.events.off("routeChangeError", handleComplete);
+    };
+  }, []);
+  return loading ? <Loading /> : <Component {...pageProps} />;
 }
 
 export default MyApp;
