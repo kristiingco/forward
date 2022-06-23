@@ -12,6 +12,7 @@ const defaultFormFields = {
 
 const LoginForm: FunctionComponent<{}> = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
+  const [formError, setFormError] = useState("");
 
   const { email, password } = formFields;
   const handleChange: any = (event: any) => {
@@ -23,24 +24,26 @@ const LoginForm: FunctionComponent<{}> = () => {
   const handleSubmit: any = async (event: any) => {
     event.preventDefault();
 
+    if (email === "" || password === "") {
+      setFormError("All fields are required.");
+      return;
+    }
+
     try {
       return await signInUser(email, password);
     } catch (error: any) {
       switch (error.code) {
         case "auth/wrong-password":
-          alert("Incorrect password for email");
+          setFormError("Incorrect password for this email address.");
           break;
         case "auth/user-not-found":
-          alert("No user associated with this email");
+          setFormError("No user associated with this email.");
           break;
         case "auth/invalid-email":
-          alert("Email is invalid");
-          break;
-        case "auth/invalid-password":
-          alert("Password is invalid");
+          setFormError("Email address is invalid.");
           break;
         default:
-          console.error(error);
+          setFormError(error);
       }
     }
   };
@@ -48,7 +51,12 @@ const LoginForm: FunctionComponent<{}> = () => {
   return (
     <div className="bg-semi-dark-blue p-8 w-11/12 md:w-7/12 lg:w-4/12 flex flex-col justify-center">
       <h1 className="text-3xl font-light">Login</h1>
-      <div className="my-5">
+      {formError && (
+        <span className="font-light text-md bg-bright-red/70 text-white p-3 mt-3">
+          {formError}
+        </span>
+      )}
+      <div className="mt-2 mb-5">
         <FormInput
           handleChange={handleChange}
           placeholder="Email address"
