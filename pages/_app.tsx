@@ -5,6 +5,8 @@ import type { AppProps } from "next/app";
 import "../styles/globals.css";
 import Loading from "../components/Loading";
 
+import { UserProvider } from "../contexts/user-context";
+
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -44,7 +46,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       router.events.off("routeChangeError", handleComplete);
     };
   }, []);
-  return loading ? <Loading /> : <Component {...pageProps} />;
+
+  return (
+    <UserProvider>
+      {loading ? <Loading /> : <Component {...pageProps} />}
+    </UserProvider>
+  );
 }
 
 export default MyApp;

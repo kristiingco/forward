@@ -112,7 +112,7 @@ export const getBookmarkStatus = async (userId: string, videoId: string) => {
   return docData.isBookmarked;
 };
 
-export const modifyBookmark = async (userId: string, videoId: string) => {
+export const modifyBookmark = async (userId: any, videoId: any) => {
   const bookmarkExists = await doesBookmarkExist(userId, videoId);
   if (bookmarkExists) {
     const docRef = await addDoc(collection(db, "bookmarks"), {

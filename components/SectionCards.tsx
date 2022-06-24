@@ -32,6 +32,7 @@ const SectionCards: FunctionComponent<SectionCardsProps> = ({
           return (
             <Card
               key={video.id}
+              videoId={video.id}
               title={video.title}
               year={video.year}
               category={video.category}

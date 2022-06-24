@@ -1,8 +1,10 @@
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, useState, useContext } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
+import { UserContext } from "../contexts/user-context";
 
 type CardProps = {
+  videoId: string;
   title: string;
   year: number;
   category: string;
@@ -13,6 +15,7 @@ type CardProps = {
 };
 
 const Card: FunctionComponent<CardProps> = ({
+  videoId,
   title,
   year,
   category,
@@ -26,15 +29,21 @@ const Card: FunctionComponent<CardProps> = ({
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
 
+  const { currentUser } = useContext(UserContext);
+
   const handleClickBookmark = async () => {
-    const data = await fetch("api/modify-bookmark", { method: "POST" }).then(
-      async (res) => {
+    if (currentUser) {
+      const { uid } = currentUser;
+      const data = await fetch(
+        `/api/modify-bookmark?userId=${uid}&videoId=${videoId}`,
+        { method: "POST" }
+      ).then(async (res) => {
         const data = await res.json();
         return data.bookmark.isBookmarked;
-      }
-    );
+      });
 
-    router.reload();
+      router.reload();
+    }
   };
   return (
     <div
