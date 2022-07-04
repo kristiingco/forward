@@ -43,7 +43,7 @@ const Movies: NextPage<any> = ({
   const filteredMovieVideos: any[] = search(movieVideos, searchQuery);
   return (
     <div className="lg:flex">
-      <NavBar />
+      <NavBar isActive="movies" />
       <motion.main
         className="my-6 lg:w-screen lg:overflow-x-hidden"
         variants={variants}

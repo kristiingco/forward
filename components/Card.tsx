@@ -42,7 +42,7 @@ const Card: FunctionComponent<CardProps> = ({
         return data.bookmark.isBookmarked;
       });
 
-      router.reload();
+      router.replace(router.asPath);
     }
   };
   return (

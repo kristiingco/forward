@@ -44,7 +44,7 @@ const TVSeries: NextPage<any> = ({
 
   return (
     <div className="lg:flex">
-      <NavBar />
+      <NavBar isActive="tv series" />
       <motion.main
         className="my-6 lg:w-screen lg:overflow-x-hidden"
         variants={variants}

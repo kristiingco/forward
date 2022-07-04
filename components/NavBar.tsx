@@ -3,7 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { signOutUser } from "../lib/firebase";
 
-const NavBar: FunctionComponent<{}> = () => {
+type NavBarProps = {
+  isActive: string;
+};
+
+const NavBar: FunctionComponent<NavBarProps> = ({ isActive }: NavBarProps) => {
   const [toggleMenu, setToggleMenu] = useState(false);
   return (
     <nav className="flex justify-between items-center bg-semi-dark-blue px-3 py-3.5 md:m-5 md:rounded-xl lg:flex-col lg:justify-start lg:h-screen lg:space-y-8">
@@ -20,7 +24,9 @@ const NavBar: FunctionComponent<{}> = () => {
         <Link href="/">
           <a>
             <Image
-              src={"/static/icon-nav-home.svg"}
+              src={`/static/icon-nav-home${
+                isActive === "home" ? "-full" : ""
+              }.svg`}
               alt="Home Nav Icon"
               width="16px"
               height="16px"
@@ -30,7 +36,9 @@ const NavBar: FunctionComponent<{}> = () => {
         <Link href="/movies">
           <a>
             <Image
-              src={"/static/icon-nav-movies.svg"}
+              src={`/static/icon-nav-movies${
+                isActive === "movies" ? "-full" : ""
+              }.svg`}
               alt="Movie Nav Icon"
               width="16px"
               height="16px"
@@ -40,7 +48,9 @@ const NavBar: FunctionComponent<{}> = () => {
         <Link href="/tv-series">
           <a>
             <Image
-              src={"/static/icon-nav-tv-series.svg"}
+              src={`/static/icon-nav-tv-series${
+                isActive === "tv series" ? "-full" : ""
+              }.svg`}
               alt="TV Series Nav Icon"
               width="16px"
               height="16px"
@@ -50,7 +60,9 @@ const NavBar: FunctionComponent<{}> = () => {
         <Link href="/bookmarks">
           <a>
             <Image
-              src={"/static/icon-nav-bookmark.svg"}
+              src={`/static/icon-nav-bookmark${
+                isActive === "bookmarks" ? "-full" : ""
+              }.svg`}
               alt="Bookmark Nav Icon"
               width="16px"
               height="16px"

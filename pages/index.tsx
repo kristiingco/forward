@@ -59,7 +59,7 @@ const Home: NextPage<any> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NavBar />
+      <NavBar isActive="home" />
       <motion.main
         className="my-6 lg:w-screen lg:overflow-x-hidden"
         variants={variants}

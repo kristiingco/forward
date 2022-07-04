@@ -25,7 +25,7 @@ const SectionCards: FunctionComponent<SectionCardsProps> = ({
         className={`my-4 ${
           trending
             ? "flex overflow-x-auto overflow-y-hidden gap-4 p-4"
-            : "flex flex-wrap justify-between"
+            : "flex flex-wrap justify-start gap-3 md:gap-6 lg:gap-10"
         }`}
       >
         {videos.map((video) => {
