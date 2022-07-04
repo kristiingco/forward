@@ -8,6 +8,7 @@ import SectionCards from "../components/SectionCards";
 import { motion } from "framer-motion";
 
 import search from "../lib/utils/search";
+import { getAllVideos } from "../lib/utils/videos";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -18,12 +19,7 @@ const variants = {
 export async function getServerSideProps(context: any) {
   const baseUrl = context.req ? `http://${context.req.headers.host}` : "";
 
-  let allVideos = await fetch(baseUrl + "/api/get-all-videos").then(
-    async (res) => {
-      const data = await res.json();
-      return data.videos;
-    }
-  );
+  const allVideos = await getAllVideos(baseUrl);
 
   const trendingVideos = allVideos.filter((element: any) => {
     return element.isTrending;
