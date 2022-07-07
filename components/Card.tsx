@@ -1,7 +1,8 @@
-import { FunctionComponent, useState, useContext } from "react";
+import { FunctionComponent, useState, useContext, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { UserContext } from "../contexts/user-context";
+import { getBookmarkStatus } from "../lib/firebase";
 
 type CardProps = {
   videoId: string;
@@ -10,7 +11,6 @@ type CardProps = {
   category: string;
   rating: string;
   inTrendingSection: boolean;
-  isBookmarked: boolean;
   imgUrl: string;
 };
 
@@ -21,15 +21,30 @@ const Card: FunctionComponent<CardProps> = ({
   category,
   rating,
   inTrendingSection,
-  isBookmarked,
   imgUrl,
 }: CardProps) => {
   const router = useRouter();
   const [isHovering, setIsHovered] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
   const onMouseEnter = () => setIsHovered(true);
   const onMouseLeave = () => setIsHovered(false);
 
   const { currentUser } = useContext(UserContext);
+
+  const refreshData = () => {
+    router.replace(router.asPath, undefined, { scroll: false });
+  };
+
+  useEffect(() => {
+    if (currentUser) {
+      const getBookmarkState = async () => {
+        const { uid } = currentUser;
+        setIsBookmarked(await getBookmarkStatus(uid, videoId));
+      };
+
+      getBookmarkState();
+    }
+  });
 
   const handleClickBookmark = async () => {
     if (currentUser) {
@@ -42,7 +57,7 @@ const Card: FunctionComponent<CardProps> = ({
         return data.bookmark.isBookmarked;
       });
 
-      router.replace(router.asPath);
+      refreshData();
     }
   };
   return (

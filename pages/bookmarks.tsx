@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext, useEffect } from "react";
 import type { NextPage } from "next";
 import { InferGetServerSidePropsType } from "next";
 import NavBar from "../components/NavBar";
@@ -7,7 +7,9 @@ import SectionCards from "../components/SectionCards";
 import { motion } from "framer-motion";
 
 import search from "../lib/utils/search";
-import { getAllVideos } from "../lib/utils/videos";
+
+import { getBookmarkedVideos } from "../lib/utils/videos";
+import { UserContext } from "../contexts/user-context";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -15,44 +17,38 @@ const variants = {
   exit: { opacity: 0 },
 };
 
-export async function getServerSideProps(context: any) {
-  const baseUrl = context.req ? `http://${context.req.headers.host}` : "";
+const Bookmarks: NextPage<any> = () => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [bookmarkedVideos, setBookmarkedVideos] = useState<any>([]);
 
-  const allVideos = await getAllVideos(baseUrl);
+  const { currentUser } = useContext(UserContext);
 
-  const allBookmarkedVideos = allVideos.filter((element: any) => {
-    return element.isBookmarked;
-  });
+  useEffect(() => {
+    if (currentUser) {
+      const { uid } = currentUser;
+      const getBookmarks = async () => {
+        setBookmarkedVideos(await getBookmarkedVideos(uid));
+      };
+      console.log(bookmarkedVideos);
+      getBookmarks();
+    }
+  }, [bookmarkedVideos]);
 
-  const allBookmarkedMovieVideos: any[] = allBookmarkedVideos.filter(
+  console.log(bookmarkedVideos);
+
+  const allBookmarkedMovieVideos: any[] = bookmarkedVideos.filter(
     (element: any) => {
       return element.category === "Movie";
     }
   );
-  const allBookmarkedTVSeriesVideos: any[] = allBookmarkedVideos.filter(
+  const allBookmarkedTVSeriesVideos: any[] = bookmarkedVideos.filter(
     (element: any) => {
       return element.category === "TV Series";
     }
   );
 
-  return {
-    props: {
-      allBookmarkedVideos,
-      allBookmarkedMovieVideos,
-      allBookmarkedTVSeriesVideos,
-    },
-  };
-}
-
-const Bookmarks: NextPage<any> = ({
-  allBookmarkedVideos,
-  allBookmarkedMovieVideos,
-  allBookmarkedTVSeriesVideos,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  const [searchQuery, setSearchQuery] = useState<string>("");
-
   const allFilteredBookmarkedVideos: any[] = search(
-    allBookmarkedVideos,
+    bookmarkedVideos,
     searchQuery
   );
 

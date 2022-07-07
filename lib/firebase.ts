@@ -84,6 +84,43 @@ export const getAllVideos = async () => {
   return resultsArray;
 };
 
+export const getBookmarkedVideos = async (userId: any) => {
+  const q = query(
+    collection(db, "bookmarks"),
+    where("userId", "==", userId),
+    where("isBookmarked", "==", true)
+  );
+
+  const querySnapshot = await getDocs(q);
+
+  const resultsArray = querySnapshot.docs.map((doc) => {
+    const id = doc.id;
+    const docData = doc.data();
+    return {
+      id,
+      ...docData,
+      isBookmarked: true,
+    };
+  });
+
+  const videoIdArray = resultsArray.map((result) => result?.videoId);
+
+  const videoArray = [];
+
+  for (let videoId of videoIdArray) {
+    const docRef = doc(db, "videos", videoId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      const id = docSnap.id;
+      videoArray.push({ id, ...docSnap.data() });
+    } else {
+      continue;
+    }
+  }
+
+  return videoArray;
+};
+
 const getBookmark = async (userId: string, videoId: string) => {
   const q = query(
     collection(db, "bookmarks"),
@@ -96,13 +133,13 @@ const getBookmark = async (userId: string, videoId: string) => {
   return querySnapshot;
 };
 
-const doesBookmarkExist = async (userId: string, videoId: string) => {
+export const doesBookmarkExist = async (userId: string, videoId: string) => {
   const bookmarkDocs = await getBookmark(userId, videoId);
 
   return bookmarkDocs.empty;
 };
 
-export const getBookmarkStatus = async (userId: string, videoId: string) => {
+export const getBookmarkStatus = async (userId: any, videoId: any) => {
   const bookmarkExists = await doesBookmarkExist(userId, videoId);
   if (bookmarkExists) {
     return false;

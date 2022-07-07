@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getAllVideos } from "../../lib/firebase";
+import { getBookmarkedVideos } from "../../lib/firebase";
 
 type Data = {
   videos?: any;
@@ -12,11 +12,12 @@ export default async function handler(
 ) {
   if (req.method === "GET") {
     try {
-      let data: any = await getAllVideos();
+      const { userId } = req.query;
+      let data: any = await getBookmarkedVideos(userId);
 
       data = await Promise.all(
         data.map(async (video: any) => {
-          return { ...video, isBookmarked: false };
+          return video;
         })
       );
 

@@ -1,4 +1,5 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useContext } from "react";
+import { getBookmarkStatus } from "../lib/firebase";
 import Card from "./Card";
 
 type SectionCardsProps = {
@@ -38,7 +39,6 @@ const SectionCards: FunctionComponent<SectionCardsProps> = ({
               category={video.category}
               rating={video.rating}
               inTrendingSection={trending}
-              isBookmarked={video.isBookmarked}
               imgUrl={video.thumbnail}
             />
           );
