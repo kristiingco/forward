@@ -11,6 +11,11 @@ type NavBarProps = {
 const NavBar: FunctionComponent<NavBarProps> = ({ isActive }: NavBarProps) => {
   const [toggleMenu, setToggleMenu] = useState(false);
   const { currentUser } = useContext(UserContext);
+  let userEmail = "";
+  if (currentUser) {
+    const { email } = currentUser;
+    userEmail = email;
+  }
   return (
     <nav className="flex justify-between items-center bg-semi-dark-blue px-3 py-3.5 md:m-5 md:rounded-xl lg:flex-col lg:justify-start lg:h-screen lg:space-y-8">
       <div>
@@ -90,9 +95,7 @@ const NavBar: FunctionComponent<NavBarProps> = ({ isActive }: NavBarProps) => {
         {toggleMenu && (
           <div className="absolute bg-black font-light text-sm right-0 p-3 mt-1 lg:left-2 lg:-bottom-16 lg:w-fit lg:z-10">
             {currentUser && (
-              <span className="block border-b-2">
-                Hello, {currentUser.email}!
-              </span>
+              <span className="block border-b-2">Hello, {userEmail}!</span>
             )}
 
             <span className="cursor-pointer" onClick={signOutUser}>

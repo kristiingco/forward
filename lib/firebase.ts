@@ -103,7 +103,10 @@ export const getBookmarkedVideos = async (userId: any) => {
     };
   });
 
-  const videoIdArray = resultsArray.map((result) => result?.videoId);
+  const videoIdArray = resultsArray.map((result) => {
+    const { videoId } = result;
+    return videoId;
+  });
 
   const videoArray = [];
 
