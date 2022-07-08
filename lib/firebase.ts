@@ -95,10 +95,10 @@ export const getBookmarkedVideos = async (userId: any) => {
 
   const resultsArray = querySnapshot.docs.map((doc) => {
     const id = doc.id;
-    const docData = doc.data();
+    const { videoId } = doc.data();
     return {
       id,
-      ...docData,
+      videoId,
       isBookmarked: true,
     };
   });
