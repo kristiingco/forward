@@ -136,7 +136,7 @@ const getBookmark = async (userId: string, videoId: string) => {
   return querySnapshot;
 };
 
-export const doesBookmarkExist = async (userId: string, videoId: string) => {
+export const doesBookmarkExist = async (userId: any, videoId: any) => {
   const bookmarkDocs = await getBookmark(userId, videoId);
 
   return bookmarkDocs.empty;
