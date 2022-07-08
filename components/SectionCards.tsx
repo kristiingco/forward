@@ -1,5 +1,4 @@
-import { FunctionComponent, useContext } from "react";
-import { getBookmarkStatus } from "../lib/firebase";
+import { FunctionComponent } from "react";
 import Card from "./Card";
 
 type SectionCardsProps = {

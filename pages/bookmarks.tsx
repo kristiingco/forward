@@ -29,12 +29,9 @@ const Bookmarks: NextPage<any> = () => {
       const getBookmarks = async () => {
         setBookmarkedVideos(await getBookmarkedVideos(uid));
       };
-      console.log(bookmarkedVideos);
       getBookmarks();
     }
-  }, [bookmarkedVideos]);
-
-  console.log(bookmarkedVideos);
+  }, [bookmarkedVideos, currentUser]);
 
   const allBookmarkedMovieVideos: any[] = bookmarkedVideos.filter(
     (element: any) => {
