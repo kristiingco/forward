@@ -1,6 +1,5 @@
 import { useState, useContext, useEffect } from "react";
 import type { NextPage } from "next";
-import { InferGetServerSidePropsType } from "next";
 import NavBar from "../components/NavBar";
 import Search from "../components/Search";
 import SectionCards from "../components/SectionCards";
@@ -27,11 +26,12 @@ const Bookmarks: NextPage<any> = () => {
     if (currentUser) {
       const { uid } = currentUser;
       const getBookmarks = async () => {
-        setBookmarkedVideos(await getBookmarkedVideos(uid));
+        let data = await getBookmarkedVideos(uid);
+        setBookmarkedVideos(data);
       };
       getBookmarks();
     }
-  }, [bookmarkedVideos, currentUser]);
+  }, [currentUser]);
 
   const allBookmarkedMovieVideos: any[] = bookmarkedVideos.filter(
     (element: any) => {

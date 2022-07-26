@@ -32,7 +32,11 @@ const Card: FunctionComponent<CardProps> = ({
   const { currentUser } = useContext(UserContext);
 
   const refreshData = () => {
-    router.replace(router.asPath, undefined, { scroll: false });
+    if (router.asPath === "/bookmarks") {
+      router.reload();
+    } else {
+      router.replace(router.asPath, undefined, { scroll: false });
+    }
   };
 
   useEffect(() => {
