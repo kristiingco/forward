@@ -9,6 +9,7 @@ import search from "../lib/utils/search";
 
 import { getBookmarkedVideos } from "../lib/utils/videos";
 import { UserContext } from "../contexts/user-context";
+import useSWR, { mutate } from "swr";
 
 const variants = {
   hidden: { opacity: 0 },
@@ -19,19 +20,39 @@ const variants = {
 const Bookmarks: NextPage<any> = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [bookmarkedVideos, setBookmarkedVideos] = useState<any>([]);
+  const [mounted, setMounted] = useState(false);
 
+  let userId = "";
   const { currentUser } = useContext(UserContext);
 
-  useEffect(() => {
-    if (currentUser) {
-      const { uid } = currentUser;
-      const getBookmarks = async () => {
-        let data = await getBookmarkedVideos(uid);
-        setBookmarkedVideos(data);
-      };
-      getBookmarks();
+  if (currentUser) {
+    const { uid } = currentUser;
+    userId = uid;
+  }
+
+  const fetcher = (url: any) =>
+    fetch(url).then(async (res) => {
+      const data = await res.json();
+      return data.videos;
+    });
+
+  const { data, mutate } = useSWR(
+    mounted ? `/api/get-bookmarked-videos?userId=${userId}` : null,
+    fetcher,
+    {
+      refreshInterval: 1000,
     }
-  }, [currentUser]);
+  );
+
+  useEffect(() => {
+    setMounted(true);
+  }, [userId]);
+
+  useEffect(() => {
+    if (data) {
+      setBookmarkedVideos(data);
+    }
+  }, [data]);
 
   const allBookmarkedMovieVideos: any[] = bookmarkedVideos.filter(
     (element: any) => {
